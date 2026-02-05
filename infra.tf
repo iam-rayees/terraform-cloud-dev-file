@@ -63,19 +63,21 @@ data "aws_acm_certificate" "cert" {
 }
 
 module "dev_elb_1" {
-  # source           = "../modules/elb"
-  source           = "app.terraform.io/Rayeez_Terra/elb/aws"
-  version          = "1.0.0"
-  nlbname          = "aws-test-nlb"
-  public_subnet_id = module.dev_vpc_1.public_subnet_id
-  environment      = module.dev_vpc_1.environment
-  tgname           = "${module.dev_vpc_1.vpc_name}-tg"
-  vpc_id           = module.dev_vpc_1.vpc_id
-  private-instance = module.dev_instance_1.private-instance
-  public-instance  = module.dev_instance_1.public-instance
-  certificate_arn  = data.aws_acm_certificate.cert.arn
-  sg_id            = [module.dev_sg_1.sg_id]
+  source  = "app.terraform.io/Rayeez_Terra/elb/aws"
+  version = "1.0.0"
+
+  name            = "aws-test-nlb"
+  subnets         = module.dev_vpc_1.public_subnet_id
+  security_groups = [module.dev_sg_1.sg_id]
+
+  public_instance_ids  = module.dev_instance_1.public_instance_ids
+  private_instance_ids = module.dev_instance_1.private_instance_ids
+
+  vpc_id          = module.dev_vpc_1.vpc_id
+  environment     = module.dev_vpc_1.environment
+  certificate_arn = data.aws_acm_certificate.cert.arn
 }
+
 
 module "dev_iam_1" {
   # source              = "../modules/iam"
