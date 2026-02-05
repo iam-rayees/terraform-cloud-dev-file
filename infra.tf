@@ -25,7 +25,7 @@ module "dev_natgw_1" {
   # source             = "../modules/nat"
   source                 = "app.terraform.io/Rayeez_Terra/nat/aws"
   version                = "1.0.0"
-  public_subnet_id       = module.dev_vpc_1.public_subnet_id[0]
+  public_subnet_id       = module.dev_vpc_1.public_subnet[0]
   private_route_table_id = module.dev_vpc_1.private_route_table_id
 }
 
@@ -41,9 +41,9 @@ module "dev_instance_1" {
   environment    = module.dev_vpc_1.environment
   key_name       = "Linux_secfile"
   vpc_name       = module.dev_vpc_1.vpc_name
-  public-subnet  = module.dev_vpc_1.public_subnet_id
+  public-subnet  = module.dev_vpc_1.public_subnet
   sg_id          = module.dev_sg_1.sg_id
-  private-subnet = module.dev_vpc_1.private_subnet_id
+  private-subnet = module.dev_vpc_1.private_subnet
 }
 
 data "aws_acm_certificate" "cert" {
