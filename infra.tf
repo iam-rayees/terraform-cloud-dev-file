@@ -8,7 +8,7 @@ module "dev_vpc_1" {
   public_cidr_block  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   azs                = ["us-east-1a", "us-east-1b", "us-east-1c"]
   private_cidr_block = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
-  Nat-GateWay_id     = module.dev_natgw_1.Nat-GateWay_id
+  nat_gateway_id     = module.dev_natgw_1.nat_gateway_id
 }
 
 module "dev_sg_1" {
@@ -24,10 +24,10 @@ module "dev_sg_1" {
 
 module "dev_natgw_1" {
   # source             = "../modules/nat"
-  source             = "app.terraform.io/Rayeez_Terra/nat/aws"
-  version            = "1.0.0"
-  public_subnet_id_1 = module.dev_vpc_1.public_subnet_id_1
-  vpc_name           = module.dev_vpc_1.vpc_name
+  source                 = "app.terraform.io/Rayeez_Terra/nat/aws"
+  version                = "1.0.0"
+  public_subnet_id       = module.dev_vpc_1.public_subnet_id[0]
+  private_route_table_id = module.dev_vpc_1.private_route_table_id
 
 }
 
