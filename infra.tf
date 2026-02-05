@@ -40,14 +40,13 @@ module "dev_instance_1" {
     us-east-1 = "ami-0b6c6ebed2801a5cb"
     us-east-2 = "ami-06e3c045d79fd65d9"
   }
-  aws_region           = var.aws_region
-  environment          = module.dev_vpc_1.environment
-  key_name             = "Linux_secfile"
-  vpc_name             = module.dev_vpc_1.vpc_name
-  public_subnet_id     = module.dev_vpc_1.public_subnet_id
-  sg_id                = module.dev_sg_1.sg_id
-  private_subnet_id    = module.dev_vpc_1.private_subnet_id
-  iam_instance_profile = module.dev_iam_1.iam_instance_profile
+  aws_region     = var.aws_region
+  environment    = module.dev_vpc_1.environment
+  key_name       = "Linux_secfile"
+  vpc_name       = module.dev_vpc_1.vpc_name
+  public-subnet  = module.dev_vpc_1.public_subnet_id
+  sg_id          = module.dev_sg_1.sg_id
+  private-subnet = module.dev_vpc_1.private_subnet_id
 }
 
 data "aws_acm_certificate" "cert" {
