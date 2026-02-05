@@ -1,15 +1,19 @@
 module "dev_vpc_1" {
-  # source             = "../modules/network"
-  source             = "app.terraform.io/Rayeez_Terra/network/aws"
-  version            = "1.0.0"
-  vpc_cidr           = "10.0.0.0/16"
-  vpc_name           = "dev-vpc"
-  environment        = "development"
-  public_cidr_block  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  azs                = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  private_cidr_block = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
-  nat_gateway_id     = module.dev_natgw_1.nat_gateway_id
+  source      = "app.terraform.io/Rayeez_Terra/network/aws"
+  version     = "1.0.0"
+  vpc_cidr    = "10.0.0.0/16"
+  vpc_name    = "dev-vpc"
+  environment = "development"
+
+  public_subnet_cidr  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  private_subnet_cidr = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
+  az_name             = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+  nat_gw = module.dev_natgw_1.nat_gateway_id
 }
+
+
+
 
 module "dev_sg_1" {
   # source        = "../modules/sg"
