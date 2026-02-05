@@ -1,5 +1,7 @@
 module "dev_vpc_1" {
-  source             = "../modules/network"
+  # source             = "../modules/network"
+  source             = "app.terraform.io/Rayeez_Terra/network/aws"
+  version            = "1.0.0"
   vpc_cidr           = "10.0.0.0/16"
   vpc_name           = "dev-vpc"
   environment        = "development"
@@ -10,7 +12,9 @@ module "dev_vpc_1" {
 }
 
 module "dev_sg_1" {
-  source        = "../modules/sg"
+  # source        = "../modules/sg"
+  source        = "app.terraform.io/Rayeez_Terra/sg/aws"
+  version       = "1.0.0"
   vpc_id        = module.dev_vpc_1.vpc_id
   service_ports = ["80", "443", "8080", "8443", "22", "1443", "3306", "1900"]
   environment   = module.dev_vpc_1.environment
@@ -19,14 +23,18 @@ module "dev_sg_1" {
 }
 
 module "dev_natgw_1" {
-  source             = "../modules/nat"
+  # source             = "../modules/nat"
+  source             = "app.terraform.io/Rayeez_Terra/nat/aws"
+  version            = "1.0.0"
   public_subnet_id_1 = module.dev_vpc_1.public_subnet_id_1
   vpc_name           = module.dev_vpc_1.vpc_name
 
 }
 
 module "dev_instance_1" {
-  source = "../modules/compute"
+  # source = "../modules/compute"
+  source  = "app.terraform.io/Rayeez_Terra/compute/aws"
+  version = "1.0.0"
   amis = {
     us-east-1 = "ami-0b6c6ebed2801a5cb"
     us-east-2 = "ami-06e3c045d79fd65d9"
@@ -51,7 +59,9 @@ data "aws_acm_certificate" "cert" {
 }
 
 module "dev_elb_1" {
-  source           = "../modules/elb"
+  # source           = "../modules/elb"
+  source           = "app.terraform.io/Rayeez_Terra/elb/aws"
+  version          = "1.0.0"
   nlbname          = "aws-test-nlb"
   public_subnet_id = module.dev_vpc_1.public_subnet_id
   environment      = module.dev_vpc_1.environment
@@ -64,7 +74,9 @@ module "dev_elb_1" {
 }
 
 module "dev_iam_1" {
-  source              = "../modules/iam"
+  # source              = "../modules/iam"
+  source              = "app.terraform.io/Rayeez_Terra/iam/aws"
+  version             = "1.0.0"
   instanceprofilename = "${module.dev_vpc_1.vpc_name}-inst-profile"
   environment         = module.dev_vpc_1.environment
   rolename            = "${module.dev_vpc_1.vpc_name}-role"
