@@ -27,7 +27,6 @@ module "dev_natgw_1" {
   version                = "1.0.0"
   public_subnet_id       = module.dev_vpc_1.public_subnet_id[0]
   private_route_table_id = module.dev_vpc_1.private_route_table_id
-  environment            = module.dev_vpc_1.environment
 }
 
 module "dev_instance_1" {
