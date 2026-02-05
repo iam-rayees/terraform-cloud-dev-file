@@ -62,7 +62,6 @@ data "aws_acm_certificate" "cert" {
 module "dev_elb_1" {
   source          = "app.terraform.io/Rayeez_Terra/elb/aws"
   version         = "1.0.0"
-  name            = "aws-test-nlb"
   subnets         = module.dev_vpc_1.public_subnet_id
   security_groups = [module.dev_sg_1.sg_id]
   instance_ids = concat(
