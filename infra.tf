@@ -12,9 +12,6 @@ module "dev_vpc_1" {
   nat_gw = module.dev_natgw_1.nat_gateway_id
 }
 
-
-
-
 module "dev_sg_1" {
   # source        = "../modules/sg"
   source        = "app.terraform.io/Rayeez_Terra/sg/aws"
@@ -63,21 +60,19 @@ data "aws_acm_certificate" "cert" {
 }
 
 module "dev_elb_1" {
-  source  = "app.terraform.io/Rayeez_Terra/elb/aws"
-  version = "1.0.0"
-
+  source          = "app.terraform.io/Rayeez_Terra/elb/aws"
+  version         = "1.0.0"
   name            = "aws-test-nlb"
   subnets         = module.dev_vpc_1.public_subnet_id
   security_groups = [module.dev_sg_1.sg_id]
-
-  public_instance_ids  = module.dev_instance_1.public_instance_ids
-  private_instance_ids = module.dev_instance_1.private_instance_ids
-
+  instance_ids = concat(
+    module.dev_instance_1.public_instance_ids,
+    module.dev_instance_1.private_instance_ids
+  )
   vpc_id          = module.dev_vpc_1.vpc_id
   environment     = module.dev_vpc_1.environment
   certificate_arn = data.aws_acm_certificate.cert.arn
 }
-
 
 module "dev_iam_1" {
   # source              = "../modules/iam"
